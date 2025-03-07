@@ -1,0 +1,22 @@
+@App:name('SubscriberB')
+@App:description('Description of the plan')
+
+@source(type = 'kafka', bootstrap.servers = "kafka:9092", topic.list = "orders", group.id = "SubscriberC", threading.option = "single.thread", partition.no = "0",
+	@map(type = 'json', enclosing.element = "$",
+		@attributes(orderId = "orderId", eventGroup = "eventGroup")))
+@sink(type = 'log')
+define stream OrderStream (orderId string, eventGroup string);
+
+@sink(type = 'log')
+define stream BatchStream (orderId string, eventGroup string, totalOrders long);
+
+@info(name = "Batch Orders")
+partition with (eventGroup of OrderStream)
+begin
+
+ 	@info(name = 'query1')
+	from OrderStream#window.timeBatch(30 sec) 
+	select orderId, eventGroup, count(5) as totalOrders 
+	insert into BatchStream;
+
+end;
