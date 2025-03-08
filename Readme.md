@@ -5,7 +5,7 @@ The project has the following structure:
 
 ### Description of Key Directories and Files
 
-- **AsyncAPIIntegration/**: This contains the Integration project. This can be opened with Micro Integrator VSCode extension.
+- **micro-integrator/AsyncAPIIntegration/**: This contains the Integration project. This can be opened with Micro Integrator VSCode extension.
   - Orders Publisher API - This is the API that publishes the orders to the Kafka topic.
     Sample curl command to publish an order:
     ```bash

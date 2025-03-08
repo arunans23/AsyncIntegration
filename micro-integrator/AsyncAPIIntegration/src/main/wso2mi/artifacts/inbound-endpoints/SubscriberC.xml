@@ -4,7 +4,7 @@
         <parameter name="interval">1000</parameter>
         <parameter name="sequential">true</parameter>
         <parameter name="coordination">true</parameter>
-        <parameter name="bootstrap.servers">localhost:9092</parameter>
+        <parameter name="bootstrap.servers">kafka:9092</parameter>
         <parameter name="topic.name">orders</parameter>
         <parameter name="group.id">SubscriberC</parameter>
         <parameter name="contentType">application/json</parameter>
