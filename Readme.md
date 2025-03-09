@@ -1,3 +1,29 @@
+## Overview
+
+This project demonstrates how to implement Event drive Integration with WSO2 Micro Integrator, WSO2 Streaming Integrator and Apache Kafka. The project consists of a Publisher API that publishes orders to a Kafka topic, and three subscribers that subscribe to the Kafka topic and process the orders. The project also demonstrates how to call an external API from the subscriber and acknowledge the order to the publisher based on the response from the external API.
+
+## How to Run
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [MI VSCode Extension](https://marketplace.visualstudio.com/items?itemName=wso2.micro-integrator)
+
+### Steps
+
+1. Clone the repository.
+2. Run the following command to start containers.
+    ```bash
+    docker-compose  up
+    ```
+3. Visit `http://localhost:3000` to access the status dashboard.
+4. Publish an event to the Publisher API. 
+    ```bash
+    curl -X POST "http://localhost:8290/orders" -H "Content-Type: application/json" -d '{"orderId":"12345","customerId":"98765","items":["router"],"eventGroup":"order_12345"}'
+    ```
+5. You can view the status of the Subscribers in the status dashboard.
+
 ## Project Structure
 
 The project has the following structure:

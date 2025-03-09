@@ -7,7 +7,7 @@
 @sink(type = 'log')
 define stream OrderStream (orderId string, eventGroup string);
 
-@sink(type = 'http', publisher.url = 'http://mi-runtime:8290/subscriber/status/?subscriberId=subscriberB',
+@sink(type = 'http', publisher.url = 'http://mi-runtime:8290/subscriber/status/?subscriberId=subscriberB', socket.idle.timeout = '180000',
       @map(type = 'json'))
 define stream BatchStream (orderId string, eventGroup string, totalOrders long);
 

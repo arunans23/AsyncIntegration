@@ -59,7 +59,7 @@
                 <target type="body" />
             </dataServiceCall>
             <log category="INFO" logMessageID="false" logFullPayload="true">
-                <message>Subscriber ${vars.subscriberId} received order</message>
+                <message>Subscriber ${vars.subscriberId} completed the order</message>
             </log>
             <respond />
         </inSequence>
