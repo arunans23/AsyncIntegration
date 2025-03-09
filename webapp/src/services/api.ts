@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://mi-runtime:8290/subsriberstatusapi'; // Replace with your actual API URL
+const API_URL = 'http://localhost:8290/subsriberstatusapi'; // Replace with your actual API URL
 
 export const getSubscriberStatus = async (subscriberId: string) => {
     try {
