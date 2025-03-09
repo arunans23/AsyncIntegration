@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="StatusCompletedSeq" xmlns="http://ws.apache.org/ns/synapse">
+    <variable name="orderId" value="12345" />
+    <payloadFactory media-type="json" template-type="default">
+        <format>{ "_putsubscriber": [ { "orderId":
+            "${vars.orderId}", "name": "subscriberC", "status": "Inprogress" } ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
+    <payloadFactory media-type="json" template-type="default">
+        <format>{ "_putsubscriber": [ { "orderId":
+            "${vars.orderId}", "name": "subscriberC", "status": "Completed" } ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
+     <script language="js">java.lang.Thread.sleep(20000);</script>
+    <payloadFactory media-type="json" template-type="default">
+        <format>{ "_deletesubscriber": [ { "subscriberId":  "subscriberC"} ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
+    <log category="INFO" logMessageID="false" logFullPayload="false">
+        <message>Subscriber C completed order. Notifying the Publisher...</message>
+    </log>
+    <!-- <http.post configKey="PublisherAckCon">
+        <relativePath>/acknowledge</relativePath>
+        <headers>[]</headers>
+        <requestBodyType>JSON</requestBodyType>
+        <requestBodyJson>'{
+  &quot;orderId&quot;: &quot;12345&quot;,
+  &quot;status&quot;: &quot;Supplier confirmed order&quot;,
+  &quot;timestamp&quot;: &quot;2025-03-05T12:00:00Z&quot;
+}'</requestBodyJson>
+        <forceScAccepted>false</forceScAccepted>
+        <disableChunking>false</disableChunking>
+        <forceHttp10>false</forceHttp10>
+        <noKeepAlive>false</noKeepAlive>
+        <forcePostPutNobody>false</forcePostPutNobody>
+        <responseVariable>http_post_1</responseVariable>
+        <overwriteBody>true</overwriteBody>
+    </http.post> -->
+</sequence>

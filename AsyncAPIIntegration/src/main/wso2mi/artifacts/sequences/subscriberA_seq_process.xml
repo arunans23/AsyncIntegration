@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sequence name="subscriberA_seq_process" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
-
-    <log category="INFO" logMessageID="false" logFullPayload="false">
-        <message>Subscriber A received</message>
-    </log>
-</sequence>

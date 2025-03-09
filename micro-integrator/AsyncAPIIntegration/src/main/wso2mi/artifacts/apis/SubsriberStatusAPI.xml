@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/subscriber" name="SubsriberStatusAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/status/?subscriberId={subscriberId}">
+        <inSequence>
+            <!-- <log category="INFO" logMessageID="false" logFullPayload="false">
+                <message>{&quot;id&quot; : ${params.queryParams.subscriberId}</message>
+            </log> -->
+            <payloadFactory media-type="json" template-type="default">
+
+                <format>{ "_getstatus": [ {
+                    "subscriberId": "${params.queryParams.subscriberId}"} ] }</format>
+            </payloadFactory>
+            <dataServiceCall serviceName="SubscriberDataService">
+                <source type="body" />
+                <target type="body" />
+            </dataServiceCall>
+            <respond />
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+    <resource methods="POST" uri-template="/status/?subscriberId={subscriberId}">
+        <inSequence>
+            <variable name="subscriberId" expression="${params.queryParams.subscriberId}"/>
+            <log category="INFO" logMessageID="false" logFullPayload="true">
+                <message>Subscriber ${vars.subscriberId} received order</message>
+            </log>
+            <variable name="orderId" expression="${payload.event.orderId}"/>
+            <variable name="subscriberId" expression="${params.queryParams.subscriberId}"/>
+            <payloadFactory media-type="json" template-type="default">
+                <format>{ "_postsubscriber": [ { "orderId": "${vars.orderId}", "name": "${vars.subscriberId}", "status": "Started" } ] }</format>
+            </payloadFactory>
+            <dataServiceCall serviceName="SubscriberDataService">
+                <source type="body" />
+                <target type="body" />
+            </dataServiceCall>
+            <script language="js">java.lang.Thread.sleep(20000);</script>
+            <payloadFactory media-type="json" template-type="default">
+                <format>{ "_putsubscriber": [ { "orderId": "${vars.orderId}", "name": "${vars.subscriberId}", "status": "Inprogress" } ] }</format>
+            </payloadFactory>
+            <dataServiceCall serviceName="SubscriberDataService">
+                <source type="body" />
+                <target type="body" />
+            </dataServiceCall>
+            <script language="js">java.lang.Thread.sleep(20000);</script>
+            <payloadFactory media-type="json" template-type="default">
+                <format>{ "_putsubscriber": [ { "orderId": "${vars.orderId}", "name": "${vars.subscriberId}", "status": "Completed" } ] }</format>
+            </payloadFactory>
+            <dataServiceCall serviceName="SubscriberDataService">
+                <source type="body" />
+                <target type="body" />
+            </dataServiceCall>
+            <script language="js">java.lang.Thread.sleep(20000);</script>
+            <payloadFactory media-type="json" template-type="default">
+                <format>{ "_deletesubscriber": [ { "subscriberId":  "${vars.subscriberId}"} ] }</format>
+            </payloadFactory>
+            <dataServiceCall serviceName="SubscriberDataService">
+                <source type="body" />
+                <target type="body" />
+            </dataServiceCall>
+            <log category="INFO" logMessageID="false" logFullPayload="true">
+                <message>Subscriber ${vars.subscriberId} completed the order</message>
+            </log>
+            <respond />
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+</api>

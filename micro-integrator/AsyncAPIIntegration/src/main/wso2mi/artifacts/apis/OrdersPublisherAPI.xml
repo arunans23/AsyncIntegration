@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/orders" name="OrdersPublisherAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/">
+        <inSequence>
+            <kafkaTransport.publishMessages configKey="KafkaCon">
+                <topic>orders</topic>
+                <partitionNo>0</partitionNo>
+                <contentType>application/json</contentType>
+                <key></key>
+                <keySchema></keySchema>
+                <keySchemaId></keySchemaId>
+                <valueSchema></valueSchema>
+                <valueSchemaId></valueSchemaId>
+                <keySchemaSubject></keySchemaSubject>
+                <keySchemaVersion></keySchemaVersion>
+                <keySchemaSoftDeleted>false</keySchemaSoftDeleted>
+                <valueSchemaSubject></valueSchemaSubject>
+                <valueSchemaVersion></valueSchemaVersion>
+                <valueSchemaSoftDeleted>false</valueSchemaSoftDeleted>
+                <value></value>
+            </kafkaTransport.publishMessages>
+            <payloadFactory media-type="json" template-type="default">
+                <format>{"message"
+                    : "Order got added to the Event Queue"}</format>
+            </payloadFactory>
+            <respond />
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+</api>

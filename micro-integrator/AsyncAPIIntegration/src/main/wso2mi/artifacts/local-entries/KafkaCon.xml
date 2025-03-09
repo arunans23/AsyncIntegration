@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="KafkaCon" xmlns="http://ws.apache.org/ns/synapse">
+  <kafkaTransport.init>
+    <connectionType>KAFKA</connectionType>
+    <bootstrapServers>kafka:9092</bootstrapServers>
+    <keySerializerClass>org.apache.kafka.common.serialization.StringSerializer</keySerializerClass>
+    <valueSerializerClass>org.apache.kafka.common.serialization.StringSerializer</valueSerializerClass>
+    <poolingEnabled>false</poolingEnabled>
+    <name>KafkaCon</name>
+  </kafkaTransport.init>
+</localEntry>

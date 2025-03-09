@@ -1,0 +1,73 @@
+<data name="SubscriberDataService" serviceNamespace="" serviceGroup="" transports="http https"
+    disableStreaming="true">
+    <description />
+    <config id="default">
+        <property name="driverClassName">com.mysql.jdbc.Driver</property>
+        <property name="url">jdbc:mysql://mysql:3306/subscribers</property>
+        <property name="username">root</property>
+        <property name="password">root</property>
+    </config>
+    <query id="select_all_subscriber_query" useConfig="default">
+        <sql>SELECT lastModifiedTime, orderId, name, status FROM subscriber</sql>
+        <result element="subscriberCollection" rowName="subscriber">
+            <element column="lastModifiedTime" name="lastModifiedTime" xsdType="xs:timestamp" />
+            <element column="orderId" name="orderId" xsdType="xs:string" />
+            <element column="name" name="name" xsdType="xs:string" />
+            <element column="status" name="status" xsdType="xs:string" />
+        </result>
+    </query>
+    <query id="insert_subscriber_query" useConfig="default">
+        <sql>INSERT INTO subscriber
+            (orderId,name,status) VALUES (?,?,?)</sql>
+        <param name="orderId" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN" />
+        <param name="name" ordinal="2" paramType="SCALAR" sqlType="STRING" type="IN" />
+        <param name="status" ordinal="3" paramType="SCALAR" sqlType="STRING" type="IN" />
+    </query>
+    <query id="get_subscriberstatussubsciberid_query" useConfig="default">
+        <sql>SELECT lastModifiedTime, orderId, name, status FROM subscriber WHERE name=?</sql>
+        <param name="subscriberId" paramType="SCALAR" sqlType="STRING" type="IN" />
+        <result element="subscriberCollection" rowName="subscriber">
+            <element column="lastModifiedTime" name="lastModifiedTime" xsdType="xs:timestamp" />
+            <element column="orderId" name="orderId" xsdType="xs:string" />
+            <element column="name" name="name" xsdType="xs:string" />
+            <element column="status" name="status" xsdType="xs:string" />
+        </result>
+    </query>
+    <query id="delete_subscriber_query" useConfig="default">
+        <sql>DELETE FROM subscriber WHERE name=?</sql>
+        <param name="subscriberId" paramType="SCALAR" sqlType="STRING" type="IN" />
+    </query>
+    <resource method="GET" path="subscriber">
+        <call-query href="select_all_subscriber_query" />
+    </resource>
+    <resource method="POST" path="subscriber">
+        <call-query href="insert_subscriber_query">
+            <with-param name="orderId" query-param="orderId" />
+            <with-param name="name" query-param="name" />
+            <with-param name="status" query-param="status" />
+        </call-query>
+    </resource>
+    <resource method="GET" path="status">
+        <call-query href="get_subscriberstatussubsciberid_query">
+            <with-param name="subscriberId" query-param="subscriberId" />
+        </call-query>
+    </resource>
+    <resource method="DELETE" path="subscriber">
+        <call-query href="delete_subscriber_query">
+            <with-param name="subscriberId" query-param="subscriberId" />
+        </call-query>
+    </resource>
+    <query id="put_subscriber_query" useConfig="default">
+        <sql>UPDATE subscriber SET orderId=?, status=? WHERE name=?</sql>
+        <param name="orderId" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN" />
+        <param name="status" ordinal="2" paramType="SCALAR" sqlType="STRING" type="IN" />
+        <param name="name" ordinal="3" paramType="SCALAR" sqlType="STRING" type="IN" />
+    </query>
+    <resource method="PUT" path="subscriber">
+        <call-query href="put_subscriber_query">
+            <with-param name="orderId" query-param="orderId" />
+            <with-param name="name" query-param="name" />
+            <with-param name="status" query-param="status" />
+        </call-query>
+    </resource>
+</data>

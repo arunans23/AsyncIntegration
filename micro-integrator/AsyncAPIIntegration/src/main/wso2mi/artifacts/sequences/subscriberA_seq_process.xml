@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="subscriberA_seq_process" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO" logMessageID="false" logFullPayload="false">
+        <message>Subscriber A received order</message>
+    </log>
+    <variable name="Event" type="JSON" expression="${payload}" />
+    <payloadFactory media-type="json" template-type="default">
+        
+        <format>{ "_postsubscriber": [ { "orderId":
+            "${payload.orderId}", "name": "subscriberA", "status": "Started" } ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
+    <script language="js">java.lang.Thread.sleep(20000);</script>
+    <payloadFactory media-type="json" template-type="default">
+        
+        <format>{ "_putsubscriber": [ { "orderId":
+            "${vars.Event.orderId}", "name": "subscriberA", "status": "Inprogress" } ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
+    <script language="js">java.lang.Thread.sleep(20000);</script>
+    <payloadFactory media-type="json" template-type="default">
+        
+        <format>{ "_putsubscriber": [ { "orderId":
+            "${vars.Event.orderId}", "name": "subscriberA", "status": "Completed" } ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
+    <script language="js">java.lang.Thread.sleep(20000);</script>
+    <payloadFactory media-type="json" template-type="default">
+        <format>{ "_deletesubscriber": [ { "subscriberId":  "subscriberA"} ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
+    <log category="INFO" logMessageID="false" logFullPayload="false">
+        <message>Subscriber A completed the order</message>
+    </log>
+</sequence>

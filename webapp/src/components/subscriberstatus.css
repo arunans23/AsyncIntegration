@@ -1,0 +1,40 @@
+.status-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .status-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .status-card p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .status-pending {
+    border-left: 4px solid #f0ad4e;
+  }
+  
+  .status-completed {
+    border-left: 4px solid #5cb85c;
+  }
+  
+  .status-failed {
+    border-left: 4px solid #d9534f;
+  }
+  
+  .status-processing {
+    border-left: 4px solid #5bc0de;
+  }
+
+  .status-idle {
+    border-left: 4px solid #f0ad4e;
+  }
+
+  .status-started {
+    border-left: 4px solid #beca10;
+  }

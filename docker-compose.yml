@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - '2181:2181'
+  kafka:
+    image: 'bitnami/kafka:latest'
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://0.0.0.0:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CREATE_TOPICS=orders:1:1
+    ports:
+      - '9092:9092'
+    depends_on:
+      - zookeeper
+  si-runtime:
+    build: 
+      context: ./SiddhiApps
+    healthcheck:
+      test: ["CMD", "nc", "-z","localhost", "9443"]
+      interval: 10s
+      start_period: 30s
+      retries: 20
+    ports:
+    - "8025:8025"
+    - "9090:9090"
+    depends_on:
+      - kafka
+  
+  # # Service to build the Maven project
+  # maven-build:
+  #   image: maven:3.8.6-openjdk-11
+  #   container_name: maven-build
+  #   volumes:
+  #     - ./micro-integrator/AsyncAPIIntegration:/usr/src/app  # Mount the project directory
+  #   working_dir: /usr/src/app
+  #   command: mvn clean install  # Build the project
+  #   environment:
+  #     - MAVEN_OPTS=-DskipTests=true  # Skip tests (optional)
+
+  mi-runtime:
+    build: 
+        context: ./micro-integrator/
+        args:
+          - BASE_IMAGE=wso2/wso2mi:4.4.0
+    healthcheck:
+      test: ["CMD", "nc", "-z","localhost", "8290"]
+      interval: 10s
+      start_period: 30s
+      retries: 20
+    ports:
+    - "8253:8253"
+    - "8290:8290"
+    - "9201:9201"
+    depends_on:
+      mysql:
+          condition: service_healthy
+      kafka:
+          condition: service_started
+      # - maven-build
+    
+  mysql:
+      image: mysql:8.0.23
+      platform: linux/x86_64
+      ports:
+        - 8083:3306
+      command: --init-file /data/application/init.sql
+      volumes:
+        - ./init.sql:/data/application/init.sql
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: subscribers
+      healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-uroot", "-proot"]
+        interval: 10s
+        retries: 20
+        start_period: 10s
+
+  webapp:
+    build: 
+      context: ./webapp
+    ports:
+      - "3000:80"
+    depends_on:
+      - mi-runtime
+      - mysql

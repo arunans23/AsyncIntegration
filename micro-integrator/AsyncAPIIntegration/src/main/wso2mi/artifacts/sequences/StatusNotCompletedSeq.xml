@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="StatusNotCompletedSeq" xmlns="http://ws.apache.org/ns/synapse">
+   <!-- <payloadFactory media-type="json" template-type="default">
+        <format>{ "_putsubscriber": [ { "orderId":
+            "${payload.orderId}", "name": "subscriberC", "status": "Inprogress" } ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall> -->
+</sequence>
