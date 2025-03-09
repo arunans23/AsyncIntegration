@@ -2,6 +2,8 @@
 
 This project demonstrates how to implement Event drive Integration with WSO2 Micro Integrator, WSO2 Streaming Integrator and Apache Kafka. The project consists of a Publisher API that publishes orders to a Kafka topic, and three subscribers that subscribe to the Kafka topic and process the orders. The project also demonstrates how to call an external API from the subscriber and acknowledge the order to the publisher based on the response from the external API.
 
+![Architectire](images/event-archiecture.png)
+
 ## How to Run
 
 ### Prerequisites
