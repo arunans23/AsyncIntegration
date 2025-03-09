@@ -29,5 +29,18 @@
     <log category="INFO" logMessageID="false" logFullPayload="false">
         <message>Received callback : ${payload}</message>
     </log>
+    <payloadFactory media-type="json" template-type="default">
+
+        <format>{"callbackUrl" : "${payload.callbackUrl}", "orderId" : "${vars.Event.orderId}"}</format>
+    </payloadFactory>
     <store messageStore="SupplierStateStore" />
+    <script language="js">java.lang.Thread.sleep(10000);</script>
+    <payloadFactory media-type="json" template-type="default">
+        <format>{ "_putsubscriber": [ { "orderId":
+            "${payload.orderId}", "name": "subscriberC", "status": "Inprogress" } ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
 </sequence>

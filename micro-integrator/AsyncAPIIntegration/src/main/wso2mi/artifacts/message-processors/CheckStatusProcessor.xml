@@ -3,7 +3,7 @@
     class="org.apache.synapse.message.processor.impl.forwarder.ScheduledMessageForwardingProcessor"
     name="CheckStatusProcessor" messageStore="SupplierStateStore" targetEndpoint="CheckStatusHTTPEp"
     xmlns="http://ws.apache.org/ns/synapse">
-    <parameter name="client.retry.interval">1000</parameter>
+    <parameter name="client.retry.interval">5000</parameter>
     <parameter name="member.count">1</parameter>
     <parameter name="message.processor.reply.sequence">StatusCompletedSeq</parameter>
     <parameter name="is.active">true</parameter>
