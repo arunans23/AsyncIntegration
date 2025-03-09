@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="subscriberC_seq_fault" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
 
-    <property name="SET_ROLLBACK_ONLY" scope="default" type="STRING" value="true" />
+    <log category="INFO"   logMessageID="false" logFullPayload="false" >
+    <message>Order is not processed yet by External supplier. Retrying in 5 seconds...</message>
+</log><property name="SET_ROLLBACK_ONLY" scope="default" type="STRING" value="true" />
 </sequence>
