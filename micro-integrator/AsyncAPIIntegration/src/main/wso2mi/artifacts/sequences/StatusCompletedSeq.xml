@@ -26,7 +26,7 @@
         <target type="body" />
     </dataServiceCall>
     <log category="INFO" logMessageID="false" logFullPayload="false">
-        <message>Subscriber C received order. Notifying the Publisher...</message>
+        <message>Subscriber C completed order. Notifying the Publisher...</message>
     </log>
     <!-- <http.post configKey="PublisherAckCon">
         <relativePath>/acknowledge</relativePath>

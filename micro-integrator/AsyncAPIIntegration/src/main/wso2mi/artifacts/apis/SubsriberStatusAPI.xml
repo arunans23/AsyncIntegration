@@ -21,8 +21,9 @@
     </resource>
     <resource methods="POST" uri-template="/status/?subscriberId={subscriberId}">
         <inSequence>
+            <variable name="subscriberId" expression="${params.queryParams.subscriberId}"/>
             <log category="INFO" logMessageID="false" logFullPayload="true">
-                <message>Subscriber ${params.queryParams.subscriberId} received order</message>
+                <message>Subscriber ${vars.subscriberId} received order</message>
             </log>
             <variable name="orderId" expression="${payload.event.orderId}"/>
             <variable name="subscriberId" expression="${params.queryParams.subscriberId}"/>
@@ -57,6 +58,9 @@
                 <source type="body" />
                 <target type="body" />
             </dataServiceCall>
+            <log category="INFO" logMessageID="false" logFullPayload="true">
+                <message>Subscriber ${vars.subscriberId} received order</message>
+            </log>
             <respond />
         </inSequence>
         <faultSequence>
