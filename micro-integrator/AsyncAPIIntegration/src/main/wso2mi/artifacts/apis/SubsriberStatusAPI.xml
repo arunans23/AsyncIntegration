@@ -21,6 +21,9 @@
     </resource>
     <resource methods="POST" uri-template="/status/?subscriberId={subscriberId}">
         <inSequence>
+            <log category="INFO" logMessageID="false" logFullPayload="true">
+                <message>Subscriber ${params.queryParams.subscriberId} received order</message>
+            </log>
             <variable name="orderId" expression="${payload.event.orderId}"/>
             <variable name="subscriberId" expression="${params.queryParams.subscriberId}"/>
             <payloadFactory media-type="json" template-type="default">

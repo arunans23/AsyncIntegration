@@ -23,7 +23,7 @@ const SubscriberStatus: React.FC<SubscriberStatusProps> = ({ subscriberId }) => 
             case 'Idle':
                 return 'status-idle';
             case 'Started':
-                    return 'status-idle';
+                    return 'status-started';
             default:
                 return 'status-pending';
         }

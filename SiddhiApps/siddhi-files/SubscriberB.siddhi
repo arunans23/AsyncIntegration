@@ -1,7 +1,7 @@
 @App:name('SubscriberB')
 @App:description('Description of the plan')
 
-@source(type = 'kafka', bootstrap.servers = "kafka:9092", topic.list = "orders", group.id = "SubscriberC", threading.option = "single.thread", partition.no = "0",
+@source(type = 'kafka', bootstrap.servers = "kafka:9092", topic.list = "orders", group.id = "SubscriberB", threading.option = "single.thread", partition.no = "0",
 	@map(type = 'json', enclosing.element = "$",
 		@attributes(orderId = "orderId", eventGroup = "eventGroup")))
 @sink(type = 'http', publisher.url = 'http://mi-runtime:8290/subscriber/status?subscriberId=subscriberB',
