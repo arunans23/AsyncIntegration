@@ -12,8 +12,6 @@ const SubscriberStatus: React.FC<SubscriberStatusProps> = ({ subscriberId }) => 
     if (loading) {
         return <div className="status-card">Loading...</div>;
     }
-    console.log(subscriberId);
-    console.log(status);
     const getStatusClass = () => {
         switch (status?.status) {
             case 'Completed':
@@ -24,6 +22,8 @@ const SubscriberStatus: React.FC<SubscriberStatusProps> = ({ subscriberId }) => 
                 return 'status-processing';
             case 'Idle':
                 return 'status-idle';
+            case 'Started':
+                    return 'status-idle';
             default:
                 return 'status-pending';
         }

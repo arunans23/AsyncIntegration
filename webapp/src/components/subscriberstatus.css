@@ -34,3 +34,7 @@
   .status-idle {
     border-left: 4px solid #f0ad4e;
   }
+
+  .status-started {
+    border-left: 4px solid #beca10;
+  }
