@@ -2,7 +2,7 @@
 <sequence name="subscriberC_seq_process" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
 
     <log category="INFO" logMessageID="false" logFullPayload="false">
-        <message>Received : ${payload}</message>
+        <message>Subscriber C received order</message>
     </log>
     <variable name="Event" type="JSON" expression="${payload}" />
     <payloadFactory media-type="json" template-type="default">
