@@ -1,0 +1,18 @@
+openapi: 3.0.1
+info:
+  title: SubsriberStatusAPI
+  description: API Definition of SubsriberStatusAPI
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/subsriberstatusapi
+paths:
+  /:
+    get:
+      parameters:
+      - name: subscriberId
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          description: Default response

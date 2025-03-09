@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="StatusCompletedSeq" xmlns="http://ws.apache.org/ns/synapse">
-
+    <payloadFactory media-type="json" template-type="default">
+        <format>{ "_putsubscriber": [ { "orderId":
+            "${payload.orderId}", "name": "subscriberC", "status": "Inprogress" } ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
     <log category="INFO" logMessageID="false" logFullPayload="false">
         <message>Order Successfully Completed. Notifying the Publisher...</message>
     </log>
-    <!-- <http.post configKey="PublisherAckCon">
+    <payloadFactory media-type="json" template-type="default">
+        <format>{ "_putsubscriber": [ { "orderId":
+            "${payload.orderId}", "name": "subscriberC", "status": "Completed" } ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
+    <http.post configKey="PublisherAckCon">
         <relativePath>/acknowledge</relativePath>
         <headers>[]</headers>
         <requestBodyType>JSON</requestBodyType>
@@ -20,6 +35,13 @@
         <forcePostPutNobody>false</forcePostPutNobody>
         <responseVariable>http_post_1</responseVariable>
         <overwriteBody>true</overwriteBody>
-    </http.post> -->
-
+    </http.post>
+     <script language="js">java.lang.Thread.sleep(20000);</script>
+    <payloadFactory media-type="json" template-type="default">
+        <format>{ "_deletesubscriber": [ { "subscriberId":  "subscriberC"} ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
 </sequence>

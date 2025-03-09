@@ -59,5 +59,25 @@ services:
     - "8290:8290"
     - "9201:9201"
     depends_on:
-      - kafka
+      mysql:
+          condition: service_healthy
+      kafka:
+          condition: service_started
       # - maven-build
+    
+  mysql:
+      image: mysql:8.0.23
+      platform: linux/x86_64
+      ports:
+        - 8083:3306
+      command: --init-file /data/application/init.sql
+      volumes:
+        - ./init.sql:/data/application/init.sql
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: subscribers
+      healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-uroot", "-proot"]
+        interval: 10s
+        retries: 20
+        start_period: 10s

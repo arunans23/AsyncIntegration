@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/subsriberstatusapi" name="SubsriberStatusAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/?subscriberId={subscriberId}">
+        <inSequence>
+            <log category="INFO" logMessageID="false" logFullPayload="false">
+                <message>{&quot;id&quot; : ${params.queryParams.subscriberId}</message>
+            </log>
+            <payloadFactory media-type="json" template-type="default">
+
+                <format>{ "_getstatus": [ {
+                    "subscriberId": "${params.queryParams.subscriberId}"} ] }</format>
+            </payloadFactory>
+            <dataServiceCall serviceName="SubscriberDataService">
+                <source type="body" />
+                <target type="body" />
+            </dataServiceCall>
+            <respond />
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+</api>

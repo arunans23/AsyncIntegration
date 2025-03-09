@@ -4,11 +4,20 @@
     <log category="INFO" logMessageID="false" logFullPayload="false">
         <message>Received : ${payload}</message>
     </log>
+    <variable name="Event" type="JSON" expression="${payload}" />
+    <payloadFactory media-type="json" template-type="default">
+        <format>{ "_postsubscriber": [ { "orderId":
+            "${payload.orderId}", "name": "subscriberC", "status": "Started" } ] }</format>
+    </payloadFactory>
+    <dataServiceCall serviceName="SubscriberDataService">
+        <source type="body" />
+        <target type="body" />
+    </dataServiceCall>
     <http.post configKey="ExternalSupplierCon">
         <relativePath>/externalsupplier</relativePath>
         <headers>[]</headers>
         <requestBodyType>JSON</requestBodyType>
-        <requestBodyJson>{${payload}}</requestBodyJson>
+        <requestBodyJson>{${vars.Event}}</requestBodyJson>
         <forceScAccepted>false</forceScAccepted>
         <disableChunking>false</disableChunking>
         <forceHttp10>false</forceHttp10>

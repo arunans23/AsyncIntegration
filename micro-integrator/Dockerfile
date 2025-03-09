@@ -10,5 +10,7 @@ COPY AsyncAPIIntegration/target/AsyncAPIIntegration_1.0.0.car ${WSO2_SERVER_HOME
 # Copy jars
 COPY libs/*.jar ${WSO2_SERVER_HOME}/lib/
 
-# # copy deployment.toml with service catalog configs
-# COPY deployment.toml ${WSO2_SERVER_HOME}/conf/
+# # copy deployment.toml 
+COPY deployment.toml ${WSO2_SERVER_HOME}/conf/
+
+COPY log4j2.properties ${WSO2_SERVER_HOME}/conf/
