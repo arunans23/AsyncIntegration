@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="subscriberA_seq_process" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <log category="INFO" logMessageID="false" logFullPayload="false">
-        <message>Subscriber A received</message>
+        <message>Subscriber A received order</message>
     </log>
     <variable name="Event" type="JSON" expression="${payload}" />
     <payloadFactory media-type="json" template-type="default">
@@ -42,6 +42,6 @@
         <target type="body" />
     </dataServiceCall>
     <log category="INFO" logMessageID="false" logFullPayload="false">
-        <message>Subscriber A completed</message>
+        <message>Subscriber A completed the order</message>
     </log>
 </sequence>
